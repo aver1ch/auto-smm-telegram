@@ -1,7 +1,7 @@
 import { Buffer } from "node:buffer";
 import crypto from "node:crypto";
 
-import { Bot, InlineKeyboard, InputFile, session, type Context } from "grammy";
+import { Bot, InlineKeyboard, InputFile, Keyboard, session, type Context } from "grammy";
 
 import { appConfig } from "../config.js";
 import { Logger } from "../logger.js";
@@ -19,6 +19,17 @@ import type { BotContextFlavor, BotFlow } from "./session.js";
 import { initialSessionData } from "./session.js";
 
 export type BotContext = Context & BotContextFlavor;
+
+const mainMenuCommands = {
+  targets: "/targets",
+  accounts: "/accounts",
+  pending: "/pending",
+  targetAdd: "/target_add",
+  referenceAdd: "/ref_add",
+  accountAdd: "/account_add",
+  help: "/help",
+  cancel: "/cancel"
+} as const;
 
 function isAdmin(userId: number | undefined): boolean {
   return typeof userId === "number" && appConfig.botAdminIds.includes(userId);
@@ -56,6 +67,194 @@ function buildApprovalKeyboard(approvalId: string): InlineKeyboard {
   return new InlineKeyboard()
     .text("Approve", `approval:approve:${approvalId}`)
     .text("Reject", `approval:reject:${approvalId}`);
+}
+
+function buildMainMenuKeyboard(): Keyboard {
+  return new Keyboard()
+    .text(mainMenuCommands.targets)
+    .text(mainMenuCommands.accounts)
+    .text(mainMenuCommands.pending)
+    .row()
+    .text(mainMenuCommands.targetAdd)
+    .text(mainMenuCommands.referenceAdd)
+    .text(mainMenuCommands.accountAdd)
+    .row()
+    .text(mainMenuCommands.help)
+    .text(mainMenuCommands.cancel)
+    .persistent()
+    .resized();
+}
+
+function buildHomeInlineKeyboard(): InlineKeyboard {
+  return new InlineKeyboard()
+    .text("Каналы", "menu:targets")
+    .text("Аккаунты", "menu:accounts")
+    .text("Pending", "menu:pending")
+    .row()
+    .text("Добавить канал", "flow:start:target")
+    .text("Добавить референс", "flow:start:reference")
+    .row()
+    .text("Добавить аккаунт", "flow:start:account");
+}
+
+function buildAccountsInlineKeyboard(): InlineKeyboard {
+  return new InlineKeyboard()
+    .text("Добавить аккаунт", "flow:start:account")
+    .text("Каналы", "menu:targets")
+    .row()
+    .text("Главное меню", "menu:home");
+}
+
+function buildAccountSelectionKeyboard(accounts: TelegramAccount[], callbackPrefix: string): InlineKeyboard {
+  const keyboard = new InlineKeyboard();
+
+  for (const account of accounts) {
+    keyboard.text(`${truncate(account.name, 18)} (${account.id})`, `${callbackPrefix}:${account.id}`).row();
+  }
+
+  return keyboard.text("Отмена", "menu:home");
+}
+
+function buildTargetSelectionKeyboard(targets: TargetChannel[], callbackPrefix: string, addBack = true): InlineKeyboard {
+  const keyboard = new InlineKeyboard();
+
+  for (const target of targets) {
+    keyboard.text(`${truncate(target.title, 18)} (${target.id})`, `${callbackPrefix}:${target.id}`).row();
+  }
+
+  if (addBack) {
+    keyboard.text("Главное меню", "menu:home");
+  }
+
+  return keyboard;
+}
+
+function buildTargetsInlineKeyboard(targets: TargetChannel[]): InlineKeyboard {
+  const keyboard = buildTargetSelectionKeyboard(targets, "target:open", false);
+  keyboard
+    .text("Добавить канал", "flow:start:target")
+    .text("Главное меню", "menu:home");
+  return keyboard;
+}
+
+function buildContentModeKeyboard(): InlineKeyboard {
+  return new InlineKeyboard()
+    .text("Rewrite", "flow:target_mode:rewrite")
+    .text("Summary", "flow:target_mode:summary")
+    .row()
+    .text("Hybrid", "flow:target_mode:hybrid")
+    .text("Отмена", "menu:home");
+}
+
+function buildYesNoKeyboard(prefix: string): InlineKeyboard {
+  return new InlineKeyboard()
+    .text("Да", `${prefix}:yes`)
+    .text("Нет", `${prefix}:no`)
+    .row()
+    .text("Отмена", "menu:home");
+}
+
+function buildAspectRatioKeyboard(): InlineKeyboard {
+  return new InlineKeyboard()
+    .text("4:5", "flow:target_ratio:4x5")
+    .text("1:1", "flow:target_ratio:1x1")
+    .text("16:9", "flow:target_ratio:16x9")
+    .row()
+    .text("Отмена", "menu:home");
+}
+
+function buildTargetActionsKeyboard(target: TargetChannel): InlineKeyboard {
+  return new InlineKeyboard()
+    .text("Generate", `target:act:generate:${target.id}`)
+    .text("Preview", `target:act:preview:${target.id}`)
+    .text("Publish", `target:act:publish:${target.id}`)
+    .row()
+    .text("Analytics", `target:act:analytics:${target.id}`)
+    .text("Refs", `target:act:refs:${target.id}`)
+    .text("Pending", `target:act:pending:${target.id}`)
+    .row()
+    .text(target.comments.enabled ? "Comments ON" : "Comments OFF", `target:toggle:comments:${target.id}`)
+    .text(target.moderation.enabled ? "Moderation ON" : "Moderation OFF", `target:toggle:moderation:${target.id}`)
+    .row()
+    .text(target.approval.posts.enabled ? "Post approve ON" : "Post approve OFF", `target:toggle:approval_posts:${target.id}`)
+    .text(target.approval.comments.enabled ? "Comment approve ON" : "Comment approve OFF", `target:toggle:approval_comments:${target.id}`)
+    .row()
+    .text("Manual", `target:schedule:${target.id}:off`)
+    .text("60m", `target:schedule:${target.id}:60`)
+    .text("180m", `target:schedule:${target.id}:180`)
+    .row()
+    .text("Calendar default", `target:calendar_default:${target.id}`)
+    .row()
+    .text("К списку каналов", "menu:targets")
+    .text("Главное меню", "menu:home");
+}
+
+function buildReferencesInlineKeyboard(target: TargetChannel): InlineKeyboard {
+  const keyboard = new InlineKeyboard();
+
+  for (const reference of target.referenceChannels) {
+    keyboard
+      .text(
+        `${reference.commentingEnabled ? "🟢" : "⚪"} ${truncate(reference.title || reference.channelRef, 22)}`,
+        `refs:toggle:${target.id}:${reference.id}`
+      )
+      .row();
+  }
+
+  keyboard
+    .text("Добавить референс", `flow:reference_add:${target.id}`)
+    .row()
+    .text("Назад к каналу", `target:open:${target.id}`)
+    .text("Главное меню", "menu:home");
+
+  return keyboard;
+}
+
+function formatTargetCard(target: TargetChannel): string {
+  const autoPostSummary =
+    target.publishMode === "calendar"
+      ? `calendar: ${describeCalendar(target.calendar)}`
+      : target.publishMode === "interval" && target.autoPost.enabled
+        ? `interval: ${target.autoPost.intervalMinutes}m`
+        : "manual";
+
+  return [
+    `${target.title} (${target.id})`,
+    `Channel: ${target.channelRef}`,
+    `Language: ${target.language}`,
+    `Mode: ${target.contentMode}`,
+    `Refs: ${target.referenceChannels.length}`,
+    `Autopost: ${autoPostSummary}`,
+    `Comments: ${target.comments.enabled ? "on" : "off"} / ${target.comments.maxCommentsPerDay} per day / cooldown ${target.comments.minHoursBetweenComments}h`,
+    `Moderation: ${target.moderation.enabled ? "on" : "off"} / max ${target.moderation.maxDeletesPerCycle}`,
+    `Approval posts: ${target.approval.posts.enabled ? "on" : "off"} / ${target.approval.posts.timeoutMinutes}m / ${target.approval.posts.onTimeout}`,
+    `Approval comments: ${target.approval.comments.enabled ? "on" : "off"} / ${target.approval.comments.timeoutMinutes}m / ${target.approval.comments.onTimeout}`,
+    `Pending approvals: ${target.pendingApprovals.length}`,
+    target.lastPublishedAt ? `Last published: ${formatDateTime(target.lastPublishedAt)}` : "Last published: none"
+  ].join("\n");
+}
+
+async function replyWithMainMenu(ctx: BotContext, text: string, extra?: { reply_markup?: InlineKeyboard }): Promise<void> {
+  await ctx.reply(text, {
+    reply_markup: extra?.reply_markup ?? buildHomeInlineKeyboard()
+  });
+}
+
+async function editOrReplyInline(ctx: BotContext, text: string, replyMarkup: InlineKeyboard): Promise<void> {
+  if (ctx.callbackQuery) {
+    try {
+      await ctx.editMessageText(text, {
+        reply_markup: replyMarkup
+      });
+      return;
+    } catch {
+      // Fall back to a new message if editing is unavailable.
+    }
+  }
+
+  await ctx.reply(text, {
+    reply_markup: replyMarkup
+  });
 }
 
 function buildApprovalCard(target: TargetChannel, approval: PendingApproval): string {
@@ -263,6 +462,115 @@ export function createBot(
 ): Bot<BotContext> {
   const bot = new Bot<BotContext>(appConfig.botToken);
 
+  const showHome = async (ctx: BotContext): Promise<void> => {
+    await editOrReplyInline(ctx, "Главное меню управления.", buildHomeInlineKeyboard());
+  };
+
+  const showAccountsPanel = async (ctx: BotContext): Promise<void> => {
+    await editOrReplyInline(ctx, formatAccounts(store.listAccounts()), buildAccountsInlineKeyboard());
+  };
+
+  const showTargetsPanel = async (ctx: BotContext): Promise<void> => {
+    const targets = store.listTargets();
+    await editOrReplyInline(ctx, formatTargets(targets), buildTargetsInlineKeyboard(targets));
+  };
+
+  const showTargetPanel = async (ctx: BotContext, targetId: string): Promise<void> => {
+    const target = store.getTarget(targetId);
+    if (!target) {
+      await editOrReplyInline(ctx, `Target ${targetId} не найден.`, buildTargetsInlineKeyboard(store.listTargets()));
+      return;
+    }
+
+    await editOrReplyInline(ctx, formatTargetCard(target), buildTargetActionsKeyboard(target));
+  };
+
+  const showReferencesPanel = async (ctx: BotContext, targetId: string): Promise<void> => {
+    const target = store.getTarget(targetId);
+    if (!target) {
+      await editOrReplyInline(ctx, `Target ${targetId} не найден.`, buildTargetsInlineKeyboard(store.listTargets()));
+      return;
+    }
+
+    await editOrReplyInline(ctx, formatReferences(target), buildReferencesInlineKeyboard(target));
+  };
+
+  const showPendingApprovals = async (ctx: BotContext, targetId?: string): Promise<void> => {
+    if (targetId && !store.getTarget(targetId)) {
+      await editOrReplyInline(ctx, `Target ${targetId} не найден.`, buildTargetsInlineKeyboard(store.listTargets()));
+      return;
+    }
+
+    const pending = approvalService.listPendingApprovals(targetId);
+    const backKeyboard = targetId
+      ? new InlineKeyboard().text("Назад к каналу", `target:open:${targetId}`).text("Главное меню", "menu:home")
+      : buildHomeInlineKeyboard();
+
+    if (pending.length === 0) {
+      await editOrReplyInline(ctx, targetId ? `Для ${targetId} pending approve нет.` : "Pending approve нет.", backKeyboard);
+      return;
+    }
+
+    await editOrReplyInline(ctx, `Найдено pending approve: ${pending.length}`, backKeyboard);
+    for (const item of pending) {
+      await ctx.reply(buildApprovalCard(item.target, item.approval), {
+        reply_markup: buildApprovalKeyboard(item.approval.id)
+      });
+    }
+  };
+
+  const startAccountAddFlow = async (ctx: BotContext): Promise<void> => {
+    ctx.session.flow = {
+      type: "account_add",
+      step: "name",
+      data: {}
+    };
+
+    await ctx.reply("Введи имя для аккаунта. Это внутренний label, например `main-editor`.");
+  };
+
+  const startTargetAddFlow = async (ctx: BotContext): Promise<void> => {
+    const accounts = store.listAccounts();
+    if (accounts.length === 0) {
+      await ctx.reply("Сначала добавь хотя бы один аккаунт через /account_add");
+      return;
+    }
+
+    ctx.session.flow = {
+      type: "target_add",
+      step: "accountId",
+      data: {}
+    };
+
+    await ctx.reply(`Выбери accountId из списка:\n${formatAccounts(accounts)}`, {
+      reply_markup: buildAccountSelectionKeyboard(accounts, "flow:target_account")
+    });
+  };
+
+  const startReferenceAddFlow = async (ctx: BotContext, presetTargetId?: string): Promise<void> => {
+    const targets = store.listTargets();
+    if (targets.length === 0) {
+      await ctx.reply("Сначала добавь целевой канал через /target_add");
+      return;
+    }
+
+    ctx.session.flow = {
+      type: "reference_add",
+      step: presetTargetId ? "channelRef" : "targetId",
+      data: presetTargetId ? { targetId: presetTargetId } : {}
+    };
+
+    if (presetTargetId) {
+      const presetTarget = store.getTarget(presetTargetId);
+      await ctx.reply(`Target выбран: ${presetTarget?.title || presetTargetId}\nТеперь введи username или ссылку референсного канала.`);
+      return;
+    }
+
+    await ctx.reply(`Укажи targetId, к которому добавить референс:\n${formatTargets(targets)}`, {
+      reply_markup: buildTargetSelectionKeyboard(targets, "flow:reference_target")
+    });
+  };
+
   bot.use(session({
     initial: initialSessionData
   }));
@@ -279,20 +587,32 @@ export function createBot(
   });
 
   bot.command(["start", "help"], async (ctx) => {
-    await ctx.reply(buildHelpText());
+    await ctx.reply(buildHelpText(), {
+      reply_markup: buildMainMenuKeyboard()
+    });
+    await ctx.reply("Основные разделы можно открыть кнопками ниже или через inline-меню.", {
+      reply_markup: buildHomeInlineKeyboard()
+    });
   });
 
   bot.command("cancel", async (ctx) => {
     ctx.session.flow = undefined;
-    await ctx.reply("Текущий сценарий сброшен.");
+    await ctx.reply("Текущий сценарий сброшен.", {
+      reply_markup: buildMainMenuKeyboard()
+    });
   });
 
   bot.command("accounts", async (ctx) => {
-    await ctx.reply(formatAccounts(store.listAccounts()));
+    await ctx.reply(formatAccounts(store.listAccounts()), {
+      reply_markup: buildAccountsInlineKeyboard()
+    });
   });
 
   bot.command("targets", async (ctx) => {
-    await ctx.reply(formatTargets(store.listTargets()));
+    const targets = store.listTargets();
+    await ctx.reply(formatTargets(targets), {
+      reply_markup: buildTargetsInlineKeyboard(targets)
+    });
   });
 
   bot.command("refs", async (ctx) => {
@@ -308,7 +628,9 @@ export function createBot(
       return;
     }
 
-    await ctx.reply(formatReferences(target));
+    await ctx.reply(formatReferences(target), {
+      reply_markup: buildReferencesInlineKeyboard(target)
+    });
   });
 
   bot.command("calendar", async (ctx) => {
@@ -586,43 +908,15 @@ export function createBot(
   });
 
   bot.command("account_add", async (ctx) => {
-    ctx.session.flow = {
-      type: "account_add",
-      step: "name",
-      data: {}
-    };
-
-    await ctx.reply("Введи имя для аккаунта. Это внутренний label, например `main-editor`.");
+    await startAccountAddFlow(ctx);
   });
 
   bot.command("target_add", async (ctx) => {
-    if (store.listAccounts().length === 0) {
-      await ctx.reply("Сначала добавь хотя бы один аккаунт через /account_add");
-      return;
-    }
-
-    ctx.session.flow = {
-      type: "target_add",
-      step: "accountId",
-      data: {}
-    };
-
-    await ctx.reply(`Выбери accountId из списка:\n${formatAccounts(store.listAccounts())}`);
+    await startTargetAddFlow(ctx);
   });
 
   bot.command("ref_add", async (ctx) => {
-    if (store.listTargets().length === 0) {
-      await ctx.reply("Сначала добавь целевой канал через /target_add");
-      return;
-    }
-
-    ctx.session.flow = {
-      type: "reference_add",
-      step: "targetId",
-      data: {}
-    };
-
-    await ctx.reply(`Укажи targetId, к которому добавить референс:\n${formatTargets(store.listTargets())}`);
+    await startReferenceAddFlow(ctx);
   });
 
   bot.command("generate", async (ctx) => {
@@ -731,6 +1025,496 @@ export function createBot(
     });
 
     await ctx.reply(`Интервальный автопостинг для ${target.title} включен: каждые ${intervalMinutes} минут.`);
+  });
+
+  bot.callbackQuery(/^menu:(home|accounts|targets|pending)$/i, async (ctx) => {
+    const section = ctx.match[1]?.toLowerCase();
+
+    switch (section) {
+      case "home":
+        await showHome(ctx);
+        break;
+      case "accounts":
+        await showAccountsPanel(ctx);
+        break;
+      case "targets":
+        await showTargetsPanel(ctx);
+        break;
+      case "pending":
+        await showPendingApprovals(ctx);
+        break;
+      default:
+        break;
+    }
+
+    await ctx.answerCallbackQuery();
+  });
+
+  bot.callbackQuery(/^flow:start:(account|target|reference)$/i, async (ctx) => {
+    const flowType = ctx.match[1]?.toLowerCase();
+
+    switch (flowType) {
+      case "account":
+        await startAccountAddFlow(ctx);
+        break;
+      case "target":
+        await startTargetAddFlow(ctx);
+        break;
+      case "reference":
+        await startReferenceAddFlow(ctx);
+        break;
+      default:
+        break;
+    }
+
+    await ctx.answerCallbackQuery();
+  });
+
+  bot.callbackQuery(/^flow:reference_add:([a-z0-9-]+)$/i, async (ctx) => {
+    const targetId = ctx.match[1];
+    await startReferenceAddFlow(ctx, targetId);
+    await ctx.answerCallbackQuery();
+  });
+
+  bot.callbackQuery(/^flow:target_account:([a-z0-9-]+)$/i, async (ctx) => {
+    const accountId = ctx.match[1];
+    if (!accountId) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректный account id.",
+        show_alert: true
+      });
+      return;
+    }
+    const flow = ctx.session.flow;
+    if (!flow || flow.type !== "target_add" || flow.step !== "accountId") {
+      await ctx.answerCallbackQuery({
+        text: "Сначала запусти сценарий добавления target.",
+        show_alert: true
+      });
+      return;
+    }
+
+    const account = store.getAccount(accountId);
+    if (!account) {
+      await ctx.answerCallbackQuery({
+        text: "Аккаунт не найден.",
+        show_alert: true
+      });
+      return;
+    }
+
+    flow.data.accountId = accountId;
+    flow.step = "title";
+    await editOrReplyInline(ctx, `Аккаунт выбран: ${account.name} (${account.id})\nТеперь введи внутреннее имя для target.`, new InlineKeyboard().text("Отмена", "menu:home"));
+    await ctx.answerCallbackQuery({
+      text: "Аккаунт выбран."
+    });
+  });
+
+  bot.callbackQuery(/^flow:reference_target:([a-z0-9-]+)$/i, async (ctx) => {
+    const targetId = ctx.match[1];
+    if (!targetId) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректный target id.",
+        show_alert: true
+      });
+      return;
+    }
+    const flow = ctx.session.flow;
+    if (!flow || flow.type !== "reference_add" || flow.step !== "targetId") {
+      await ctx.answerCallbackQuery({
+        text: "Сначала запусти сценарий добавления референса.",
+        show_alert: true
+      });
+      return;
+    }
+
+    const target = store.getTarget(targetId);
+    if (!target) {
+      await ctx.answerCallbackQuery({
+        text: "Target не найден.",
+        show_alert: true
+      });
+      return;
+    }
+
+    flow.data.targetId = targetId;
+    flow.step = "channelRef";
+    await editOrReplyInline(ctx, `Target выбран: ${target.title} (${target.id})\nТеперь введи username или ссылку референсного канала.`, new InlineKeyboard().text("Отмена", "menu:home"));
+    await ctx.answerCallbackQuery({
+      text: "Target выбран."
+    });
+  });
+
+  bot.callbackQuery(/^flow:target_mode:(rewrite|summary|hybrid)$/i, async (ctx) => {
+    const mode = ctx.match[1] as ContentMode;
+    const flow = ctx.session.flow;
+    if (!flow || flow.type !== "target_add" || flow.step !== "contentMode") {
+      await ctx.answerCallbackQuery({
+        text: "Сначала дойди до шага выбора режима контента.",
+        show_alert: true
+      });
+      return;
+    }
+
+    flow.data.contentMode = mode;
+    flow.step = "includeImage";
+    await editOrReplyInline(ctx, `Режим выбран: ${mode}\nНужна генерация картинки?`, buildYesNoKeyboard("flow:target_image"));
+    await ctx.answerCallbackQuery({
+      text: "Режим выбран."
+    });
+  });
+
+  bot.callbackQuery(/^flow:target_image:(yes|no)$/i, async (ctx) => {
+    const includeImage = ctx.match[1] === "yes";
+    const flow = ctx.session.flow;
+    if (!flow || flow.type !== "target_add" || flow.step !== "includeImage") {
+      await ctx.answerCallbackQuery({
+        text: "Сначала дойди до шага выбора картинки.",
+        show_alert: true
+      });
+      return;
+    }
+
+    flow.data.includeImage = includeImage;
+    flow.step = "imageAspectRatio";
+    await editOrReplyInline(ctx, `Генерация картинки: ${includeImage ? "yes" : "no"}\nВыбери aspect ratio.`, buildAspectRatioKeyboard());
+    await ctx.answerCallbackQuery({
+      text: "Параметр сохранён."
+    });
+  });
+
+  bot.callbackQuery(/^flow:target_ratio:(4x5|1x1|16x9)$/i, async (ctx) => {
+    const rawRatio = ctx.match[1];
+    if (!rawRatio) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректный aspect ratio.",
+        show_alert: true
+      });
+      return;
+    }
+    const flow = ctx.session.flow;
+    if (!flow || flow.type !== "target_add" || flow.step !== "imageAspectRatio") {
+      await ctx.answerCallbackQuery({
+        text: "Сначала дойди до шага выбора соотношения.",
+        show_alert: true
+      });
+      return;
+    }
+
+    flow.data.imageAspectRatio = rawRatio.replace("x", ":");
+    flow.step = "styleNotes";
+    await editOrReplyInline(ctx, `Aspect ratio: ${flow.data.imageAspectRatio}\nТеперь введи style notes. Если не нужно, отправь \`-\`.`, new InlineKeyboard().text("Отмена", "menu:home"));
+    await ctx.answerCallbackQuery({
+      text: "Aspect ratio сохранён."
+    });
+  });
+
+  bot.callbackQuery(/^target:open:([a-z0-9-]+)$/i, async (ctx) => {
+    const targetId = ctx.match[1];
+    if (!targetId) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректный target id.",
+        show_alert: true
+      });
+      return;
+    }
+
+    await showTargetPanel(ctx, targetId);
+    await ctx.answerCallbackQuery();
+  });
+
+  bot.callbackQuery(/^target:act:(generate|preview|publish|analytics|refs|pending):([a-z0-9-]+)$/i, async (ctx) => {
+    const action = ctx.match[1]?.toLowerCase();
+    const targetId = ctx.match[2];
+
+    if (!targetId || !action) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректное действие.",
+        show_alert: true
+      });
+      return;
+    }
+
+    try {
+      if (action === "generate") {
+        const draft = await contentService.generateDraft(targetId, false);
+        if (!draft) {
+          await ctx.answerCallbackQuery({
+            text: "Новых или доступных материалов не нашлось.",
+            show_alert: true
+          });
+          return;
+        }
+
+        const target = store.getTarget(targetId);
+        if (target) {
+          await replyDraftPreview(ctx, target);
+        }
+        await showTargetPanel(ctx, targetId);
+        await ctx.answerCallbackQuery({
+          text: "Черновик обновлён."
+        });
+        return;
+      }
+
+      if (action === "preview") {
+        const target = store.getTarget(targetId);
+        if (!target) {
+          await ctx.answerCallbackQuery({
+            text: "Target не найден.",
+            show_alert: true
+          });
+          return;
+        }
+
+        await replyDraftPreview(ctx, target);
+        await ctx.answerCallbackQuery({
+          text: "Preview отправлен."
+        });
+        return;
+      }
+
+      if (action === "publish") {
+        const draft = await contentService.publishDraft(targetId);
+        await ctx.reply(
+          `Пост опубликован.\n\nTarget: ${targetId}\nSummary: ${draft.summary || "-"}\nSources: ${draft.sourceMessages.length}`
+        );
+        await showTargetPanel(ctx, targetId);
+        await ctx.answerCallbackQuery({
+          text: "Пост опубликован."
+        });
+        return;
+      }
+
+      if (action === "analytics") {
+        const updated = await analyticsService.updateTargetAnalytics(targetId);
+        await ctx.reply(analyticsService.formatTargetAnalytics(updated));
+        await showTargetPanel(ctx, targetId);
+        await ctx.answerCallbackQuery({
+          text: "Аналитика обновлена."
+        });
+        return;
+      }
+
+      if (action === "refs") {
+        await showReferencesPanel(ctx, targetId);
+        await ctx.answerCallbackQuery();
+        return;
+      }
+
+      if (action === "pending") {
+        await showPendingApprovals(ctx, targetId);
+        await ctx.answerCallbackQuery();
+      }
+    } catch (error) {
+      logger.error("Inline target action failed", {
+        action,
+        targetId,
+        error: String(error)
+      });
+      await ctx.answerCallbackQuery({
+        text: `Ошибка: ${String(error)}`,
+        show_alert: true
+      });
+    }
+  });
+
+  bot.callbackQuery(/^target:toggle:(comments|moderation|approval_posts|approval_comments):([a-z0-9-]+)$/i, async (ctx) => {
+    const toggle = ctx.match[1]?.toLowerCase();
+    const targetId = ctx.match[2];
+    if (!targetId) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректный target id.",
+        show_alert: true
+      });
+      return;
+    }
+    const target = store.getTarget(targetId);
+    if (!target || !toggle) {
+      await ctx.answerCallbackQuery({
+        text: "Target не найден.",
+        show_alert: true
+      });
+      return;
+    }
+
+    if (toggle === "comments") {
+      store.saveTarget({
+        ...target,
+        comments: {
+          ...target.comments,
+          enabled: !target.comments.enabled
+        },
+        updatedAt: new Date().toISOString()
+      });
+    } else if (toggle === "moderation") {
+      store.saveTarget({
+        ...target,
+        moderation: {
+          ...target.moderation,
+          enabled: !target.moderation.enabled
+        },
+        updatedAt: new Date().toISOString()
+      });
+    } else if (toggle === "approval_posts") {
+      store.saveTarget({
+        ...target,
+        approval: {
+          ...target.approval,
+          posts: {
+            ...target.approval.posts,
+            enabled: !target.approval.posts.enabled
+          }
+        },
+        updatedAt: new Date().toISOString()
+      });
+    } else if (toggle === "approval_comments") {
+      store.saveTarget({
+        ...target,
+        approval: {
+          ...target.approval,
+          comments: {
+            ...target.approval.comments,
+            enabled: !target.approval.comments.enabled
+          }
+        },
+        updatedAt: new Date().toISOString()
+      });
+    }
+
+    await showTargetPanel(ctx, targetId);
+    await ctx.answerCallbackQuery({
+      text: "Настройка обновлена."
+    });
+  });
+
+  bot.callbackQuery(/^target:schedule:([a-z0-9-]+):(off|60|180)$/i, async (ctx) => {
+    const targetId = ctx.match[1];
+    const intervalRaw = ctx.match[2];
+    if (!targetId || !intervalRaw) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректные параметры расписания.",
+        show_alert: true
+      });
+      return;
+    }
+    const target = store.getTarget(targetId);
+    if (!target) {
+      await ctx.answerCallbackQuery({
+        text: "Target не найден.",
+        show_alert: true
+      });
+      return;
+    }
+
+    if (intervalRaw === "off") {
+      store.saveTarget({
+        ...target,
+        publishMode: "manual",
+        autoPost: {
+          ...target.autoPost,
+          enabled: false
+        },
+        updatedAt: new Date().toISOString()
+      });
+    } else {
+      const intervalMinutes = Number(intervalRaw);
+      store.saveTarget({
+        ...target,
+        publishMode: "interval",
+        autoPost: {
+          enabled: true,
+          intervalMinutes,
+          lastRunAt: target.autoPost.lastRunAt
+        },
+        updatedAt: new Date().toISOString()
+      });
+    }
+
+    await showTargetPanel(ctx, targetId);
+    await ctx.answerCallbackQuery({
+      text: intervalRaw === "off" ? "Автопост выключен." : `Интервал ${intervalRaw} минут.`
+    });
+  });
+
+  bot.callbackQuery(/^target:calendar_default:([a-z0-9-]+)$/i, async (ctx) => {
+    const targetId = ctx.match[1];
+    if (!targetId) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректный target id.",
+        show_alert: true
+      });
+      return;
+    }
+    const target = store.getTarget(targetId);
+    if (!target) {
+      await ctx.answerCallbackQuery({
+        text: "Target не найден.",
+        show_alert: true
+      });
+      return;
+    }
+
+    const calendar = createCalendarConfig(appConfig.defaultCalendarExpression, appConfig.defaultCalendarTimezone);
+    store.saveTarget({
+      ...target,
+      publishMode: "calendar",
+      calendar,
+      updatedAt: new Date().toISOString()
+    });
+
+    await showTargetPanel(ctx, targetId);
+    await ctx.answerCallbackQuery({
+      text: "Включён calendar preset."
+    });
+  });
+
+  bot.callbackQuery(/^refs:toggle:([a-z0-9-]+):([a-z0-9-]+)$/i, async (ctx) => {
+    const targetId = ctx.match[1];
+    const referenceId = ctx.match[2];
+    if (!targetId || !referenceId) {
+      await ctx.answerCallbackQuery({
+        text: "Некорректный reference id.",
+        show_alert: true
+      });
+      return;
+    }
+    const target = store.getTarget(targetId);
+    if (!target) {
+      await ctx.answerCallbackQuery({
+        text: "Target не найден.",
+        show_alert: true
+      });
+      return;
+    }
+
+    const reference = target.referenceChannels.find((item) => item.id === referenceId);
+    if (!reference) {
+      await ctx.answerCallbackQuery({
+        text: "Reference не найден.",
+        show_alert: true
+      });
+      return;
+    }
+
+    store.saveTarget({
+      ...target,
+      referenceChannels: target.referenceChannels.map((item) =>
+        item.id === referenceId
+          ? {
+              ...item,
+              commentingEnabled: !item.commentingEnabled
+            }
+          : item
+      ),
+      updatedAt: new Date().toISOString()
+    });
+
+    await showReferencesPanel(ctx, targetId);
+    await ctx.answerCallbackQuery({
+      text: "Референс обновлён."
+    });
   });
 
   bot.callbackQuery(/^approval:(approve|reject):([a-z0-9-]+)$/i, async (ctx) => {
@@ -876,7 +1660,9 @@ async function handleAccountFlow(
       const verification = await telegramAccountService.verifyAccount(account);
       store.saveAccount(account);
       ctx.session.flow = undefined;
-      await ctx.reply(`Аккаунт добавлен: ${account.id} — ${account.name}\nTelegram user: ${verification.displayName}`);
+      await ctx.reply(`Аккаунт добавлен: ${account.id} — ${account.name}\nTelegram user: ${verification.displayName}`, {
+        reply_markup: buildAccountsInlineKeyboard()
+      });
       return;
     }
   }
@@ -927,7 +1713,9 @@ async function handleTargetFlow(
     case "tone":
       flow.data.tone = text;
       flow.step = "contentMode";
-      await ctx.reply("Режим контента: `rewrite`, `summary` или `hybrid`");
+      await ctx.reply("Режим контента: `rewrite`, `summary` или `hybrid`", {
+        reply_markup: buildContentModeKeyboard()
+      });
       return;
     case "contentMode": {
       const normalized = text.toLowerCase() as ContentMode;
@@ -938,7 +1726,9 @@ async function handleTargetFlow(
 
       flow.data.contentMode = normalized;
       flow.step = "includeImage";
-      await ctx.reply("Нужна генерация картинки? Ответь `yes` или `no`");
+      await ctx.reply("Нужна генерация картинки? Ответь `yes` или `no`", {
+        reply_markup: buildYesNoKeyboard("flow:target_image")
+      });
       return;
     }
     case "includeImage": {
@@ -950,7 +1740,9 @@ async function handleTargetFlow(
 
       flow.data.includeImage = includeImage;
       flow.step = "imageAspectRatio";
-      await ctx.reply("Соотношение сторон картинки. Пример: `4:5`, `1:1`, `16:9`");
+      await ctx.reply("Соотношение сторон картинки. Пример: `4:5`, `1:1`, `16:9`", {
+        reply_markup: buildAspectRatioKeyboard()
+      });
       return;
     }
     case "imageAspectRatio":
@@ -1022,7 +1814,9 @@ async function handleTargetFlow(
 
       store.saveTarget(target);
       ctx.session.flow = undefined;
-      await ctx.reply(`Target создан: ${target.id} — ${target.title}\nТеперь добавь референсы через /ref_add`);
+      await ctx.reply(`Target создан: ${target.id} — ${target.title}\nТеперь добавь референсы через /ref_add`, {
+        reply_markup: buildTargetActionsKeyboard(target)
+      });
       return;
     }
   }
@@ -1086,7 +1880,10 @@ async function handleReferenceFlow(
       });
 
       ctx.session.flow = undefined;
-      await ctx.reply(`Референс добавлен к ${target.title}: ${reference.id} — ${reference.title}`);
+      const updatedTarget = store.getTarget(target.id);
+      await ctx.reply(`Референс добавлен к ${target.title}: ${reference.id} — ${reference.title}`, {
+        reply_markup: updatedTarget ? buildReferencesInlineKeyboard(updatedTarget) : buildHomeInlineKeyboard()
+      });
       return;
     }
   }
