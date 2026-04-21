@@ -1,0 +1,15 @@
+python-telegram-bot==21.4
+python-dotenv==1.0.1
+pydantic-settings==2.5.2
+sqlalchemy==2.0.34
+asyncpg==0.30.0
+redis==5.1.1
+httpx==0.27.2
+celery==5.4.0
+psycopg2-binary==2.9.9
+cryptography==43.0.1
+pytz==2024.1
+python-multipart==0.0.9
+uvicorn==0.30.6
+fastapi==0.115.0
+aiofiles==24.1.0

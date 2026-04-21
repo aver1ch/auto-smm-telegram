@@ -1,0 +1,709 @@
+2026-04-20 23:49:39 | INFO     | __main__:19 | Starting Auto SMM Telegram Bot...
+2026-04-20 23:49:39 | CRITICAL | __main__:52 | Bot crashed: Token is invalid!
+Traceback (most recent call last):
+  File "/Users/averichie/Desktop/auto-smm-telegram/main.py", line 48, in <module>
+    asyncio.run(main())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/averichie/Desktop/auto-smm-telegram/main.py", line 21, in main
+    bot = Bot(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/client/bot.py", line 273, in __init__
+    validate_token(token)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/utils/token.py", line 27, in validate_token
+    raise TokenValidationError("Token is invalid!")
+aiogram.utils.token.TokenValidationError: Token is invalid!
+2026-04-20 23:50:56 | INFO     | __main__:19 | Starting Auto SMM Telegram Bot...
+2026-04-20 23:50:56 | CRITICAL | __main__:52 | Bot crashed: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Desktop/auto-smm-telegram/main.py", line 48, in <module>
+    asyncio.run(main())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/averichie/Desktop/auto-smm-telegram/main.py", line 33, in main
+    logger.info(f"Admin Telegram ID: {settings.ADMIN_TELEGRAM_ID}")
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:53:06 | INFO     | __main__:19 | Starting Auto SMM Telegram Bot...
+2026-04-20 23:53:06 | INFO     | __main__:33 | Admin Telegram ID: 765591222
+2026-04-20 23:53:06 | INFO     | __main__:34 | OpenRouter configured: False
+2026-04-20 23:53:06 | INFO     | __main__:37 | Bot started successfully
+2026-04-20 23:53:06 | INFO     | aiogram.dispatcher:566 | Start polling
+2026-04-20 23:53:06 | INFO     | aiogram.dispatcher:363 | Run polling for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-20 23:53:06 | INFO     | aiogram.event:172 | Update id=973873143 is not handled. Duration 0 ms by bot id=8385404252
+2026-04-20 23:53:06 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873143 by bot id=8385404252
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 16, in command_start_handler
+    is_admin = user_id == settings.ADMIN_TELEGRAM_ID
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:54:22 | INFO     | __main__:19 | Starting Auto SMM Telegram Bot...
+2026-04-20 23:54:22 | INFO     | __main__:33 | Admin Telegram ID: 765591222
+2026-04-20 23:54:22 | INFO     | __main__:34 | OpenRouter configured: False
+2026-04-20 23:54:22 | INFO     | __main__:37 | Bot started successfully
+2026-04-20 23:54:22 | INFO     | aiogram.dispatcher:566 | Start polling
+2026-04-20 23:54:22 | INFO     | aiogram.dispatcher:363 | Run polling for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-20 23:54:22 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:22 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:54:26 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:26 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:54:28 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:28 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.286356 seconds and try again... (tryings = 1, bot id = 8385404252)
+2026-04-20 23:54:32 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:32 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.404868 seconds and try again... (tryings = 1, bot id = 8385404252)
+2026-04-20 23:54:33 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:33 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.767910 seconds and try again... (tryings = 2, bot id = 8385404252)
+2026-04-20 23:54:38 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:38 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.740415 seconds and try again... (tryings = 2, bot id = 8385404252)
+2026-04-20 23:54:40 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:40 | WARNING  | aiogram.dispatcher:221 | Sleep for 2.403543 seconds and try again... (tryings = 3, bot id = 8385404252)
+2026-04-20 23:54:40 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 3, bot id = 8385404252)
+2026-04-20 23:54:40 | INFO     | aiogram.event:172 | Update id=973873144 is not handled. Duration 1 ms by bot id=8385404252
+2026-04-20 23:54:40 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873144 by bot id=8385404252
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 16, in command_start_handler
+    is_admin = user_id == settings.ADMIN_TELEGRAM_ID
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:54:46 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:46 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:54:47 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:47 | WARNING  | aiogram.dispatcher:221 | Sleep for 3.112568 seconds and try again... (tryings = 4, bot id = 8385404252)
+2026-04-20 23:54:47 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 1, bot id = 8385404252)
+2026-04-20 23:54:47 | INFO     | aiogram.event:172 | Update id=973873145 is not handled. Duration 0 ms by bot id=8385404252
+2026-04-20 23:54:47 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873145 by bot id=8385404252
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 16, in command_start_handler
+    is_admin = user_id == settings.ADMIN_TELEGRAM_ID
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:54:50 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:50 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:54:54 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:54 | WARNING  | aiogram.dispatcher:221 | Sleep for 4.052313 seconds and try again... (tryings = 5, bot id = 8385404252)
+2026-04-20 23:54:58 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:54:58 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.389267 seconds and try again... (tryings = 1, bot id = 8385404252)
+2026-04-20 23:55:02 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:02 | WARNING  | aiogram.dispatcher:221 | Sleep for 4.929877 seconds and try again... (tryings = 6, bot id = 8385404252)
+2026-04-20 23:55:07 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:07 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.751964 seconds and try again... (tryings = 2, bot id = 8385404252)
+2026-04-20 23:55:12 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:12 | WARNING  | aiogram.dispatcher:221 | Sleep for 5.010808 seconds and try again... (tryings = 7, bot id = 8385404252)
+2026-04-20 23:55:17 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:17 | WARNING  | aiogram.dispatcher:221 | Sleep for 2.106659 seconds and try again... (tryings = 3, bot id = 8385404252)
+2026-04-20 23:55:22 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:22 | WARNING  | aiogram.dispatcher:221 | Sleep for 5.042060 seconds and try again... (tryings = 8, bot id = 8385404252)
+2026-04-20 23:55:27 | INFO     | __main__:19 | Starting Auto SMM Telegram Bot...
+2026-04-20 23:55:27 | INFO     | __main__:33 | Admin Telegram ID: 765591222
+2026-04-20 23:55:27 | INFO     | __main__:34 | OpenRouter configured: False
+2026-04-20 23:55:27 | INFO     | __main__:37 | Bot started successfully
+2026-04-20 23:55:27 | INFO     | aiogram.dispatcher:566 | Start polling
+2026-04-20 23:55:27 | INFO     | aiogram.dispatcher:363 | Run polling for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-20 23:55:27 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:27 | WARNING  | aiogram.dispatcher:221 | Sleep for 2.731203 seconds and try again... (tryings = 4, bot id = 8385404252)
+2026-04-20 23:55:30 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:30 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:55:31 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 5, bot id = 8385404252)
+2026-04-20 23:55:31 | INFO     | aiogram.event:172 | Update id=973873146 is not handled. Duration 1 ms by bot id=8385404252
+2026-04-20 23:55:31 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873146 by bot id=8385404252
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 16, in command_start_handler
+    is_admin = user_id == settings.ADMIN_TELEGRAM_ID
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:55:32 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:32 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:55:33 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:33 | WARNING  | aiogram.dispatcher:221 | Sleep for 5.022426 seconds and try again... (tryings = 9, bot id = 8385404252)
+2026-04-20 23:55:36 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:36 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.210991 seconds and try again... (tryings = 1, bot id = 8385404252)
+2026-04-20 23:55:36 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 1, bot id = 8385404252)
+2026-04-20 23:55:36 | INFO     | aiogram.event:172 | Update id=973873147 is not handled. Duration 0 ms by bot id=8385404252
+2026-04-20 23:55:36 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873147 by bot id=8385404252
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 16, in command_start_handler
+    is_admin = user_id == settings.ADMIN_TELEGRAM_ID
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:55:37 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:37 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:55:39 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 1, bot id = 8385404252)
+2026-04-20 23:55:39 | INFO     | aiogram.event:172 | Update id=973873148 is not handled. Duration 0 ms by bot id=8385404252
+2026-04-20 23:55:39 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873148 by bot id=8385404252
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 16, in command_start_handler
+    is_admin = user_id == settings.ADMIN_TELEGRAM_ID
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:55:41 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:41 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.524037 seconds and try again... (tryings = 2, bot id = 8385404252)
+2026-04-20 23:55:41 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:41 | WARNING  | aiogram.dispatcher:221 | Sleep for 4.900312 seconds and try again... (tryings = 10, bot id = 8385404252)
+2026-04-20 23:55:42 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:42 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:55:46 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:46 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.229820 seconds and try again... (tryings = 1, bot id = 8385404252)
+2026-04-20 23:55:46 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:46 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.924574 seconds and try again... (tryings = 3, bot id = 8385404252)
+2026-04-20 23:55:50 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:50 | WARNING  | aiogram.dispatcher:221 | Sleep for 5.025953 seconds and try again... (tryings = 11, bot id = 8385404252)
+2026-04-20 23:55:52 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:52 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.769167 seconds and try again... (tryings = 2, bot id = 8385404252)
+2026-04-20 23:55:53 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:53 | WARNING  | aiogram.dispatcher:221 | Sleep for 2.685025 seconds and try again... (tryings = 4, bot id = 8385404252)
+2026-04-20 23:55:58 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:58 | WARNING  | aiogram.dispatcher:221 | Sleep for 2.408679 seconds and try again... (tryings = 3, bot id = 8385404252)
+2026-04-20 23:55:59 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:55:59 | WARNING  | aiogram.dispatcher:221 | Sleep for 4.970849 seconds and try again... (tryings = 12, bot id = 8385404252)
+2026-04-20 23:56:01 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:01 | WARNING  | aiogram.dispatcher:221 | Sleep for 3.302621 seconds and try again... (tryings = 5, bot id = 8385404252)
+2026-04-20 23:56:04 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:04 | WARNING  | aiogram.dispatcher:221 | Sleep for 2.897528 seconds and try again... (tryings = 4, bot id = 8385404252)
+2026-04-20 23:56:05 | WARNING  | aiogram.dispatcher:491 | Received SIGINT signal
+2026-04-20 23:56:05 | INFO     | aiogram.dispatcher:395 | Polling stopped for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-20 23:56:05 | INFO     | aiogram.dispatcher:594 | Polling stopped
+2026-04-20 23:56:06 | INFO     | __main__:42 | Bot stopped
+2026-04-20 23:56:07 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:07 | WARNING  | aiogram.dispatcher:221 | Sleep for 4.950658 seconds and try again... (tryings = 13, bot id = 8385404252)
+2026-04-20 23:56:11 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 5, bot id = 8385404252)
+2026-04-20 23:56:11 | INFO     | aiogram.event:172 | Update id=973873149 is not handled. Duration 1 ms by bot id=8385404252
+2026-04-20 23:56:11 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873149 by bot id=8385404252
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 16, in command_start_handler
+    is_admin = user_id == settings.ADMIN_TELEGRAM_ID
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:56:12 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:12 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:56:16 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:16 | WARNING  | aiogram.dispatcher:221 | Sleep for 5.026297 seconds and try again... (tryings = 14, bot id = 8385404252)
+2026-04-20 23:56:21 | WARNING  | aiogram.dispatcher:491 | Received SIGINT signal
+2026-04-20 23:56:21 | INFO     | aiogram.dispatcher:395 | Polling stopped for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-20 23:56:21 | INFO     | aiogram.dispatcher:594 | Polling stopped
+2026-04-20 23:56:21 | INFO     | __main__:42 | Bot stopped
+2026-04-20 23:56:23 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 1, bot id = 8385404252)
+2026-04-20 23:56:31 | INFO     | __main__:19 | Starting Auto SMM Telegram Bot...
+2026-04-20 23:56:31 | INFO     | __main__:33 | Admin Telegram ID: 765591222
+2026-04-20 23:56:31 | INFO     | __main__:34 | OpenRouter configured: False
+2026-04-20 23:56:31 | INFO     | __main__:37 | Bot started successfully
+2026-04-20 23:56:31 | INFO     | aiogram.dispatcher:566 | Start polling
+2026-04-20 23:56:32 | INFO     | aiogram.dispatcher:363 | Run polling for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-20 23:56:32 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:32 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:56:35 | WARNING  | aiogram.dispatcher:491 | Received SIGINT signal
+2026-04-20 23:56:35 | INFO     | aiogram.dispatcher:395 | Polling stopped for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-20 23:56:35 | INFO     | aiogram.dispatcher:594 | Polling stopped
+2026-04-20 23:56:35 | INFO     | __main__:42 | Bot stopped
+2026-04-20 23:56:37 | INFO     | __main__:19 | Starting Auto SMM Telegram Bot...
+2026-04-20 23:56:37 | INFO     | __main__:33 | Admin Telegram ID: 765591222
+2026-04-20 23:56:37 | INFO     | __main__:34 | OpenRouter configured: False
+2026-04-20 23:56:37 | INFO     | __main__:37 | Bot started successfully
+2026-04-20 23:56:37 | INFO     | aiogram.dispatcher:566 | Start polling
+2026-04-20 23:56:37 | INFO     | aiogram.dispatcher:363 | Run polling for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-20 23:56:37 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:37 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.338778 seconds and try again... (tryings = 1, bot id = 8385404252)
+2026-04-20 23:56:40 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 2, bot id = 8385404252)
+2026-04-20 23:56:40 | INFO     | aiogram.event:172 | Update id=973873150 is not handled. Duration 0 ms by bot id=8385404252
+2026-04-20 23:56:40 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873150 by bot id=8385404252
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 16, in command_start_handler
+    is_admin = user_id == settings.ADMIN_TELEGRAM_ID
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/pydantic/main.py", line 991, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'ADMIN_TELEGRAM_ID'
+2026-04-20 23:56:42 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:42 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:56:43 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:43 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-20 23:56:47 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:47 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.275200 seconds and try again... (tryings = 1, bot id = 8385404252)
+2026-04-20 23:56:48 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:48 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.381881 seconds and try again... (tryings = 1, bot id = 8385404252)
+2026-04-20 23:56:53 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:53 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.719449 seconds and try again... (tryings = 2, bot id = 8385404252)
+2026-04-20 23:56:54 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:54 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.932541 seconds and try again... (tryings = 2, bot id = 8385404252)
+2026-04-20 23:56:59 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 23:56:59 | WARNING  | aiogram.dispatcher:221 | Sleep for 2.104158 seconds and try again... (tryings = 3, bot id = 8385404252)
+2026-04-20 23:57:03 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 4, bot id = 8385404252)
+2026-04-20 23:57:03 | INFO     | aiogram.event:172 | Update id=973873151 is not handled. Duration 15 ms by bot id=8385404252
+2026-04-20 23:57:03 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873151 by bot id=8385404252
+TypeError: __init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 31, in command_start_handler
+    reply_markup=main_menu_keyboard(is_admin=is_admin)
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/keyboards/keyboards.py", line 9, in main_menu_keyboard
+    [InlineKeyboardButton("✍️ Создать пост", callback_data="post:create")],
+TypeError: __init__() takes 1 positional argument but 2 were given
+2026-04-20 23:57:07 | INFO     | aiogram.event:172 | Update id=973873152 is not handled. Duration 3 ms by bot id=8385404252
+2026-04-20 23:57:07 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873152 by bot id=8385404252
+TypeError: __init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 31, in command_start_handler
+    reply_markup=main_menu_keyboard(is_admin=is_admin)
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/keyboards/keyboards.py", line 9, in main_menu_keyboard
+    [InlineKeyboardButton("✍️ Создать пост", callback_data="post:create")],
+TypeError: __init__() takes 1 positional argument but 2 were given
+2026-04-21 02:13:05 | WARNING  | aiogram.dispatcher:491 | Received SIGINT signal
+2026-04-21 02:13:05 | INFO     | aiogram.dispatcher:395 | Polling stopped for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-21 02:13:05 | INFO     | aiogram.dispatcher:594 | Polling stopped
+2026-04-21 02:13:05 | INFO     | __main__:42 | Bot stopped
+2026-04-21 02:13:08 | INFO     | __main__:19 | Starting Auto SMM Telegram Bot...
+2026-04-21 02:13:08 | INFO     | __main__:33 | Admin Telegram ID: 765591222
+2026-04-21 02:13:08 | INFO     | __main__:34 | OpenRouter configured: False
+2026-04-21 02:13:08 | INFO     | __main__:37 | Bot started successfully
+2026-04-21 02:13:08 | INFO     | aiogram.dispatcher:566 | Start polling
+2026-04-21 02:13:09 | INFO     | aiogram.dispatcher:363 | Run polling for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-21 02:13:21 | INFO     | aiogram.event:172 | Update id=973873153 is not handled. Duration 3 ms by bot id=8385404252
+2026-04-21 02:13:21 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873153 by bot id=8385404252
+ConnectionError: Error Multiple exceptions: [Errno 61] Connect call failed ('::1', 6379, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 6379) connecting to localhost:6379.
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/redis/asyncio/connection.py", line 275, in connect
+    await self.retry.call_with_retry(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/redis/asyncio/retry.py", line 59, in call_with_retry
+    return await do()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/redis/asyncio/connection.py", line 691, in _connect
+    reader, writer = await asyncio.open_connection(
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/streams.py", line 52, in open_connection
+    transport, _ = await loop.create_connection(
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 1064, in create_connection
+    raise OSError('Multiple exceptions: {}'.format(
+OSError: Multiple exceptions: [Errno 61] Connect call failed ('::1', 6379, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 6379)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 18, in command_start_handler
+    await user_state_manager.reset(user_id)
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/states/state_manager.py", line 59, in reset
+    await self.set_state(user_id, StateType.IDLE)
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/states/state_manager.py", line 44, in set_state
+    await self.redis.set(f"{self.state_key_prefix}{user_id}", state, ex=3600 * 24)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/redis/asyncio/client.py", line 611, in execute_command
+    conn = self.connection or await pool.get_connection(command_name, **options)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/redis/asyncio/connection.py", line 1058, in get_connection
+    await self.ensure_connection(connection)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/redis/asyncio/connection.py", line 1091, in ensure_connection
+    await connection.connect()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/redis/asyncio/connection.py", line 283, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error Multiple exceptions: [Errno 61] Connect call failed ('::1', 6379, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 6379) connecting to localhost:6379.
+2026-04-21 02:13:39 | INFO     | aiogram.event:172 | Update id=973873154 is not handled. Duration 15 ms by bot id=8385404252
+2026-04-21 02:13:39 | ERROR    | aiogram.event:315 | Cause exception while process update id=973873154 by bot id=8385404252
+TypeError: __init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/fsm/middleware.py", line 42, in __call__
+    return await handler(event, data)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 141, in _wrapped
+    return await self._propagate_event(
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+  File "/Users/averichie/Library/Python/3.9/lib/python/site-packages/aiogram/dispatcher/event/handler.py", line 43, in call
+    return await wrapped()
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/handlers/main_handlers.py", line 31, in command_start_handler
+    reply_markup=main_menu_keyboard(is_admin=is_admin)
+  File "/Users/averichie/Desktop/auto-smm-telegram/app/bot/keyboards/keyboards.py", line 9, in main_menu_keyboard
+    [InlineKeyboardButton("✍️ Создать пост", callback_data="post:create")],
+TypeError: __init__() takes 1 positional argument but 2 were given
+2026-04-21 03:01:20 | ERROR    | aiogram.dispatcher:219 | Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [Errno 54] Connection reset by peer
+2026-04-21 03:01:20 | WARNING  | aiogram.dispatcher:221 | Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8385404252)
+2026-04-21 03:01:31 | INFO     | aiogram.dispatcher:233 | Connection established (tryings = 1, bot id = 8385404252)
+2026-04-21 20:09:56 | WARNING  | aiogram.dispatcher:491 | Received SIGINT signal
+2026-04-21 20:09:56 | INFO     | aiogram.dispatcher:395 | Polling stopped for bot @my_SMM_agent_bot id=8385404252 - 'My SMM agent'
+2026-04-21 20:09:56 | INFO     | aiogram.dispatcher:594 | Polling stopped
+2026-04-21 20:09:56 | INFO     | __main__:42 | Bot stopped
